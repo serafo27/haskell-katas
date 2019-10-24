@@ -2,6 +2,7 @@ module Phrases where
 
 data Bottle = Bottle { num :: Int }
 data Verse = Verse { verse_num :: Int }
+data TemplateData = TemplateData { currentBottles :: String, action :: String, remainingBottles :: String }
 
 data NthPhrase = NthPhrase { bottle :: Bottle }
 data ThirdLastPhrase = ThirdLastPhrase
@@ -9,23 +10,31 @@ data SecondLastPhrase = SecondLastPhrase
 data LastPhrase = LastPhrase 
 
 class PrintablePhrase a where
-  get :: a -> String
+  get :: a -> TemplateData
 
 instance PrintablePhrase NthPhrase where
-  get p = bottleNum p ++ " bottles of beer on the wall, " ++ bottleNum p ++ " bottles of beer.\n" ++
-          "Take one down and pass it around, " ++ nextBottleNum p ++ " bottles of beer on the wall.\n"
+  get p = TemplateData { currentBottles= bottleNum p ++ " bottles",
+                         action="Take one down and pass it around",
+                         remainingBottles= nextBottleNum p ++ " bottles" }
           
 instance PrintablePhrase ThirdLastPhrase where
-  get p = "2 bottles of beer on the wall, 2 bottles of beer.\n" ++
-          "Take one down and pass it around, 1 bottle of beer on the wall.\n"
+  get p = TemplateData { currentBottles= "2 bottles",
+                         action="Take one down and pass it around",
+                         remainingBottles="1 bottle" }
 
 instance PrintablePhrase SecondLastPhrase where
-  get p = "1 bottle of beer on the wall, 1 bottle of beer.\n" ++
-          "Take it down and pass it around, no more bottles of beer on the wall.\n"
+  get p = TemplateData { currentBottles="1 bottle",
+                         action="Take it down and pass it around",
+                         remainingBottles="no more bottles" }
 
 instance PrintablePhrase LastPhrase where
-  get p = "No more bottles of beer on the wall, no more bottles of beer.\n" ++
-          "Go to the store and buy some more, 99 bottles of beer on the wall."
+  get p = TemplateData { currentBottles="No more bottles",
+                         action="Go to the store and buy some more",
+                         remainingBottles="99 bottles" }
+
+template :: TemplateData -> String
+template d = currentBottles d ++ " of beer on the wall, " ++ currentBottles d ++ " of beer.\n" ++
+              action d ++ ", " ++ remainingBottles d ++ " of beer on the wall.\n"
 
 bottleNum :: NthPhrase -> String
 bottleNum = show . num . bottle
@@ -38,7 +47,10 @@ verseToBottle v = Bottle $ (100 - (verse_num v))
 
 printPhrase :: Verse -> String
 printPhrase v
-  | verse_num v == 100 = get LastPhrase 
-  | verse_num v == 99 = get SecondLastPhrase 
-  | verse_num v == 98 = get ThirdLastPhrase
-  | otherwise = get (NthPhrase $ verseToBottle v)
+  | verse_num v == 100 = useTemplate LastPhrase 
+  | verse_num v == 99 = useTemplate SecondLastPhrase 
+  | verse_num v == 98 = useTemplate ThirdLastPhrase
+  | otherwise = useTemplate (NthPhrase $ verseToBottle v)
+
+useTemplate :: (PrintablePhrase a) => a -> String
+useTemplate = template . get
