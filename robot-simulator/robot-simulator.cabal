@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1468e4967671b59952aa363cecabe0d6184a524ed44335e602918839e5124ec6
+-- hash: 06cf746c241a9ac7c209371c8ee9221c09358b4d488c3fc0cd85a0cd1b0207e0
 
 name:           robot-simulator
 version:        3.2.0.8
@@ -14,6 +14,7 @@ library
   exposed-modules:
       Robot
   other-modules:
+      RobotWithStateAndComposition
       Paths_robot_simulator
   hs-source-dirs:
       src
