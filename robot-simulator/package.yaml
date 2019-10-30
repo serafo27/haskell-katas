@@ -3,6 +3,7 @@ version: 3.2.0.8
 
 dependencies:
   - base
+  - mtl
 
 library:
   exposed-modules: Robot

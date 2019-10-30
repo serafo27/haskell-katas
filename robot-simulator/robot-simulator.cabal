@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 06cf746c241a9ac7c209371c8ee9221c09358b4d488c3fc0cd85a0cd1b0207e0
+-- hash: fc9d5540f634eacc57243d5114c3665b9cddae5526e6029c1db30827ced96680
 
 name:           robot-simulator
 version:        3.2.0.8
@@ -21,6 +21,7 @@ library
   ghc-options: -Wall
   build-depends:
       base
+    , mtl
   default-language: Haskell2010
 
 test-suite test
@@ -33,5 +34,6 @@ test-suite test
   build-depends:
       base
     , hspec
+    , mtl
     , robot-simulator
   default-language: Haskell2010
