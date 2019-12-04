@@ -7,10 +7,10 @@ import First
 spec :: Spec
 spec = do
   
-  describe "fuelFor" $ do
+  describe "fuelForMass" $ do
     it "fuel needed for a mass" $ do
-      fuelFor 12 `shouldBe` 2
+      fuelForMass 12 `shouldBe` 2
 
-  describe "totalFuelFor" $ do
+  describe "fuelForFuel" $ do
     it "fuel needed for a mass and the mass of the fuel" $ do
-      fullFuelFor 1969 `shouldBe` 966
+      fuelForFuel 1969 `shouldBe` 966
